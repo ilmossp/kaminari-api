@@ -1,0 +1,15 @@
+{
+  "name": "kaminari-api",
+  "version": "1.0.0",
+  "description": "a scrapper api for the kaminari managa app",
+  "main": "main.js",
+  "author": "ilmossp",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "jsdom": "^20.0.0",
+    "nodemon": "^2.0.19"
+  }
+}

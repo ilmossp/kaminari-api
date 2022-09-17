@@ -1,5 +1,5 @@
-const { fetchAZ, fetchHome, fetchManga } = require("./fetcher");
-const jsdom = require("jsdom");
+import { fetchAZ, fetchHome, fetchManga } from "./fetcher.js";
+import jsdom from 'jsdom'
 const { JSDOM } = jsdom;
 
 async function getAZ() {
@@ -45,7 +45,7 @@ async function getManga(id) {
 
   const arr = Array.from(desc.querySelector("div.anisc-info").children).slice(0,-3);
   arr.map((node) => {
-    obj[node.getElementsByClassName(".item-head").innerHTML.slice(0,-1)] = node.getElementsByClassName("name").innerHTML;
+    obj[node.querySelector("span.item-head").innerHTML] = node.querySelector(".name").innerHTML;
   });
   
 
@@ -71,4 +71,4 @@ async function getManga(id) {
   };
 }
 
-module.exports = { getTrending, getAZ, getManga };
+export { getTrending, getAZ, getManga };

@@ -1,11 +1,7 @@
-const { query } = require("express");
-const express = require("express");
-require("dotenv").config();
+import express from 'express'
 const app = express();
-const port = process.env.PORT;
-const axios = require("axios").default;
-const { getTrending, getAZ, getManga } = require("./scrapper");
-
+const port = 3000;
+import { getTrending, getAZ, getManga } from "./scrapper.js"
 app.get("/", (req, res) => {
   res.json("hello world ! ");
 });

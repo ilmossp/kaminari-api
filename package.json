@@ -4,6 +4,7 @@
   "description": "a scrapper api for the kaminari managa app",
   "main": "main.js",
   "author": "ilmossp",
+  "type": "module",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.27.2",

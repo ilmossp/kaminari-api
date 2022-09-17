@@ -1,4 +1,4 @@
-const axios = require('axios').default
+import axios from 'axios'
 
 axios.defaults.baseURL = "https://mangareader.to"
 
@@ -20,4 +20,4 @@ async function fetchHome(){
     return data
 }
 
-module.exports={fetchAZ,fetchHome,fetchManga}
+export {fetchAZ,fetchHome,fetchManga}

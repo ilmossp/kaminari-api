@@ -5,6 +5,13 @@
   "main": "main.js",
   "author": "ilmossp",
   "license": "MIT",
+  "scripts": {
+    "start": "node main"
+  },
+  "engines" : { 
+    "npm" : ">=7.0.0",
+    "node" : ">=16.0.0"
+  },
   "dependencies": {
     "axios": "^0.27.2",
     "dotenv": "^16.0.2",

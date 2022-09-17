@@ -1,4 +1,4 @@
-import  axios from 'axios'
+import axios from './node_modules/axios'
 
 axios.defaults.baseURL = "https://mangareader.to"
 

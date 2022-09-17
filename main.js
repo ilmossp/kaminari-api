@@ -1,9 +1,9 @@
-import dotenv from 'dotenv' 
-dotenv.config()
-import express from 'express'
+
+require('dotenv').config()
+const express = require('express')
 const app = express();
 const port = process.env.PORT;
-import { getTrending, getAZ, getManga } from "./scrapper.js"
+const { getTrending, getAZ, getManga } = require("./scrapper")
 
 app.get("/", (req, res) => {
   res.json("hello world ! ");

@@ -1,5 +1,6 @@
-import { fetchAZ, fetchHome, fetchManga } from "./fetcher.js";
-import jsdom from 'jsdom'
+
+const jsdom = require('jsdom');
+const { fetchAZ, fetchHome, fetchManga } = require('./fetcher');
 const { JSDOM } = jsdom;
 
 async function getAZ() {
@@ -71,4 +72,4 @@ async function getManga(id) {
   };
 }
 
-export { getTrending, getAZ, getManga };
+module.exports = { getTrending, getAZ, getManga };

@@ -42,12 +42,13 @@ async function getManga(id) {
   const nodes = Array.from(
     dom.window.document.querySelector("#en-chapters").children
   );
-  // var obj = {};
+   var obj = {};
 
-  // const arr = Array.from(desc.querySelector("div.anisc-info").children).slice(0,-3);
-  // arr.map((node) => {
-  //   obj[node.querySelector("span.item-head").innerHTML] = node.querySelector(".name").innerHTML;
-  // });
+   const arr = Array.from(desc.querySelector(".anisc-info").children).slice(0,-2);
+   console.log(arr)
+   arr.forEach((node) => {
+     obj[node.querySelector("span.item-head").innerHTML] = node.querySelector(".name") ? node.querySelector('.name').innerHTML : node.querySelector('a').innerHTML ;
+   });
   
 
   const mangaDesc = {
@@ -56,7 +57,7 @@ async function getManga(id) {
       (node) => node.innerHTML
     ),
     description: desc.querySelector("div.description").innerHTML,
-    // info: obj,
+     info: obj,
   };
   const chapters = nodes.map((node) => {
     return {

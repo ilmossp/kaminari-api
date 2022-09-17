@@ -7,7 +7,7 @@ const axios = require("axios").default;
 const { getTrending, getAZ, getManga } = require("./scrapper");
 
 app.get("/", (req, res) => {
-  res.send("hello world ! ");
+  res.json("hello world ! ");
 });
 
 app.get("/AZ", async (req, res) => {

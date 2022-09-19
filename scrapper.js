@@ -1,8 +1,5 @@
-
-const jsdom = require('jsdom');
-const { fetchAZ, fetchHome, fetchManga } = require('./fetcher');
-const { JSDOM } = jsdom;
-
+const { fetchAZ, fetchHome, fetchManga } = require("./fetcher");
+const htmlparser = require('htmlparser2')
 async function getAZ() {
   const doc = await fetchAZ();
   const dom = new JSDOM(doc);
@@ -21,9 +18,10 @@ async function getAZ() {
 
 async function getTrending() {
   const doc = await fetchHome();
-  const dom = new JSDOM(doc);
+  const dom = htmlparser.parseDocument(doc)
+
   const nodes = Array.from(
-    dom.window.document.querySelector("#trending-home .swiper-wrapper").children
+    dom.querySelector("#trending-home .swiper-wrapper").children
   );
   const mangas = nodes.map((node) => {
     return {
@@ -37,19 +35,28 @@ async function getTrending() {
 
 async function getManga(id) {
   const doc = await fetchManga(id);
+  const time = new Date().getTime();
   const dom = new JSDOM(doc);
+  console.log((new Date().getTime() - time) / 1000);
   const desc = dom.window.document.querySelector("div.anis-content");
   const nodes = Array.from(
     dom.window.document.querySelector("#en-chapters").children
   );
-   var obj = {};
+  var obj = {};
 
-   const arr = Array.from(desc.querySelector(".anisc-info").children).slice(0,-2);
-   console.log(arr)
-   arr.forEach((node) => {
-     obj[node.querySelector("span.item-head").innerHTML] = node.querySelector(".name") ? node.querySelector('.name').innerHTML : node.querySelector('a').innerHTML ;
-   });
-  
+  const arr = Array.from(desc.querySelector(".anisc-info").children);
+  let l = arr.length;
+  for (let i = 0; i < l; ++i) {
+    if ("item" in arr[i].classList) {
+      continue;
+    } else {
+      obj[arr[i].querySelector("span.item-head").innerHTML] = arr[
+        i
+      ].querySelector("a")
+        ? arr[i].querySelector("a").innerHTML
+        : arr[i].querySelector(".item-name");
+    }
+  }
 
   const mangaDesc = {
     title: desc.querySelector("h2.manga-name").innerHTML,
@@ -57,7 +64,7 @@ async function getManga(id) {
       (node) => node.innerHTML
     ),
     description: desc.querySelector("div.description").innerHTML,
-     info: obj,
+    info: obj,
   };
   const chapters = nodes.map((node) => {
     return {

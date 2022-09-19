@@ -1,5 +1,5 @@
 const { fetchAZ, fetchHome, fetchManga } = require("./fetcher");
-const htmlparser = require('htmlparser2')
+const htmlparser = require('')
 async function getAZ() {
   const doc = await fetchAZ();
   const dom = new JSDOM(doc);
@@ -19,18 +19,17 @@ async function getAZ() {
 async function getTrending() {
   const doc = await fetchHome();
   const dom = htmlparser.parseDocument(doc)
-
-  const nodes = Array.from(
-    dom.querySelector("#trending-home .swiper-wrapper").children
-  );
-  const mangas = nodes.map((node) => {
-    return {
-      id: node.querySelector("a.link-mask").getAttribute("href"),
-      title: node.querySelector("img.manga-poster-img").getAttribute("alt"),
-      cover: node.querySelector("img.manga-poster-img").getAttribute("src"),
-    };
-  });
-  return mangas;
+  // const nodes = Array.from(
+  //   dom.
+  // );
+  // const mangas = nodes.map((node) => {
+  //   return {
+  //     id: node.querySelector("a.link-mask").getAttribute("href"),
+  //     title: node.querySelector("img.manga-poster-img").getAttribute("alt"),
+  //     cover: node.querySelector("img.manga-poster-img").getAttribute("src"),
+  //   };
+  // });
+   console.log(dom.children);
 }
 
 async function getManga(id) {

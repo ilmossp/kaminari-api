@@ -1,28 +1,22 @@
 
 require('dotenv').config()
-const express = require('express')
+const express = require('express');
+const { trending, manga } = require('./controllers/mangas.controller');
 const app = express();
-const port = process.env.PORT;
-const { getTrending, getAZ, getManga } = require("./scrapper")
+const port = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
   res.json("hello world ! ");
 });
 
-app.get("/AZ", async (req, res) => {
+app.get("/mangas", async (req, res) => {
   const manga = await getAZ();
   return res.json({ html: manga });
 });
 
-app.get("/trending", async (req, res) => {
-  const manga = await getTrending();
-  return res.json(manga);
-});
+app.get("/mangas/trending", trending);
 
-app.get("/mangas/:id", async (req, res) => {
-  const manga= await getManga(req.params.id)
-  return res.json({html: manga})
-});
+app.get("/mangas/:id", manga);
 
 app.listen(port, () => {
   console.log("i am listening !!");

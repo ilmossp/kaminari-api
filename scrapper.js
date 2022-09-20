@@ -1,5 +1,5 @@
 const { fetchAZ, fetchHome, fetchManga } = require("./fetcher");
-const htmlparser = require('')
+const htmlparser = require("node-html-parser");
 async function getAZ() {
   const doc = await fetchAZ();
   const dom = new JSDOM(doc);
@@ -18,58 +18,47 @@ async function getAZ() {
 
 async function getTrending() {
   const doc = await fetchHome();
-  const dom = htmlparser.parseDocument(doc)
-  // const nodes = Array.from(
-  //   dom.
-  // );
-  // const mangas = nodes.map((node) => {
-  //   return {
-  //     id: node.querySelector("a.link-mask").getAttribute("href"),
-  //     title: node.querySelector("img.manga-poster-img").getAttribute("alt"),
-  //     cover: node.querySelector("img.manga-poster-img").getAttribute("src"),
-  //   };
-  // });
-   console.log(dom.children);
+  const dom = htmlparser.parse(doc);
+  const nodes = dom.querySelectorAll("#trending-home div.item");
+  const mangas = nodes.map(node => {
+    return {
+      id: node.querySelector('.link-mask').getAttribute('href'),
+      name: node.querySelector('.manga-poster-img').getAttribute('alt'),
+      cover: node.querySelector('.manga-poster-img').getAttribute('src'),
+    }
+  })
+  
+  return mangas
 }
 
 async function getManga(id) {
   const doc = await fetchManga(id);
-  const time = new Date().getTime();
-  const dom = new JSDOM(doc);
-  console.log((new Date().getTime() - time) / 1000);
-  const desc = dom.window.document.querySelector("div.anis-content");
-  const nodes = Array.from(
-    dom.window.document.querySelector("#en-chapters").children
-  );
+  const dom = htmlparser.parse(doc);
+  const desc = dom.querySelector("div.anis-content");
+  const nodes = dom.querySelectorAll('#en-chapters .chapter-item .item-link')
   var obj = {};
 
-  const arr = Array.from(desc.querySelector(".anisc-info").children);
-  let l = arr.length;
-  for (let i = 0; i < l; ++i) {
-    if ("item" in arr[i].classList) {
-      continue;
-    } else {
-      obj[arr[i].querySelector("span.item-head").innerHTML] = arr[
-        i
-      ].querySelector("a")
-        ? arr[i].querySelector("a").innerHTML
-        : arr[i].querySelector(".item-name");
-    }
-  }
+  const arr = desc.querySelectorAll('item item-name');
+  
+  //fills manga details Type,status,...
+  arr.forEach(node => {
+    obj[node.firstChild.innerText.toLowerCase()] = node.lastChild.innerText
+  })
+  
+
 
   const mangaDesc = {
     title: desc.querySelector("h2.manga-name").innerHTML,
-    genres: Array.from(desc.querySelector(".genres").children).map(
-      (node) => node.innerHTML
-    ),
+    genres: desc.querySelectorAll('.genres a').map(node => node.innerHTML),
     description: desc.querySelector("div.description").innerHTML,
     info: obj,
   };
+
+  //creates array of chapter objects 
   const chapters = nodes.map((node) => {
     return {
-      id: node.querySelector("a.item-link").getAttribute("href"),
-      title: node.querySelector("a.item-link").getAttribute("title"),
-      number: node.getAttribute("data-number"),
+      id: node.getAttribute("href"),
+      title: node.getAttribute("title"),
     };
   });
 

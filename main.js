@@ -16,7 +16,7 @@ app.get("/AZ", async (req, res) => {
 
 app.get("/trending", async (req, res) => {
   const manga = await getTrending();
-  return manga;
+  return res.json(manga);
 });
 
 app.get("/mangas/:id", async (req, res) => {

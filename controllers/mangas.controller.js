@@ -12,7 +12,7 @@ async function manga(req,res){
 
 async function mangas(req,res){
   const mangas= await getFiltered(req.query)
-
+  return res.json(mangas)
 }
 
 

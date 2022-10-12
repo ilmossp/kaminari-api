@@ -14,9 +14,10 @@ const filterValidation=[
     query('ed').isDate({format: 'DD'}).optional(),
     query('score').isIn(['default','last-updated','score','name-az','release-date','most-viewed']).optional(),
     query('genres').isArray({min: 1,max: 45}).custom(value => value.every(
-            element => !isNaN(element) && 1<=parseInt(element)<=48
+            element => !isNaN(element) && 1<=parseInt(element)<=45
     )
-    )
+    ),
+    query('page').isInt({min:1}).optional()    
 ]
 
 module.exports = {filterValidation}

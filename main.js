@@ -14,7 +14,7 @@ app.get("/mangas/trending", trending);
 
 app.get("/mangas/:id", manga);
 
-app.get("/mangas/filter",filterValidation,mangas)
+app.get("/mangas",filterValidation,mangas)
 
 
 app.listen(port, () => {

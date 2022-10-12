@@ -1,4 +1,4 @@
-const { getTrending, getAZ, getManga } = require("../lib/scrapper")
+const { getTrending, getManga, getFiltered } = require("../lib/scrapper")
 
 async function trending(req,res){
   const manga = await getTrending();
@@ -11,8 +11,9 @@ async function manga(req,res){
 }
 
 async function mangas(req,res){
-  
+  const mangas= await getFiltered(req.query)
+
 }
 
 
-module.exports={trending,manga}
+module.exports={trending,manga,mangas}

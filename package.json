@@ -6,7 +6,7 @@
   "author": "ilmossp",
   "license": "MIT",
   "scripts": {
-    "start": "node main"
+    "start": "nodemon main"
   },
   "engines": {
     "npm": ">=7.0.0",
